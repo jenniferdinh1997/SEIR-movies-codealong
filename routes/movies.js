@@ -9,5 +9,7 @@ router.get('/', function(req, res, next) {
 
 // GET /movies/new
 router.get('/new', moviesCtrl.new);
+// POST /movies
+router.post('/', moviesCtrl.create);
 
 module.exports = router;
