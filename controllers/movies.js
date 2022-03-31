@@ -4,6 +4,15 @@ function newMovie(req, res) {
     res.render('movies/new');
   }
 
+  function index(req, res){
+    Movie.find({}, function(err, movies) {
+      res.render('movies/index', {
+      movies, 
+      title: 'All Movies'
+    });
+  });
+  }
+
   function create(req, res) {
     // convert nowShowing's checkbox of nothing or "on" to boolean
     req.body.nowShowing = !!req.body.nowShowing;
@@ -23,7 +32,8 @@ function newMovie(req, res) {
 
 module.exports = {
     new: newMovie,
-    create
+    create,
+    index
   };
 
 
