@@ -8,6 +8,7 @@ var logger = require('morgan');
 require('./config/database');
 var indexRouter = require('./routes/index');
 var moviesRouter = require('./routes/movies');
+const reviewsRouter = require('./routes/reviews');
 
 var app = express();
 
@@ -22,8 +23,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/movies', moviesRouter);
-app.use('/', indexRouter);
+app.use('/movies', moviesRouter); // every route in the moviesRoute is starting with /movies
+app.use('/', reviewsRouter); // Nested resources aka reviews, they are always mounted in server.js
+// at /
+app.use('/', indexRouter); //localhost:3000
 
 
 // catch 404 and forward to error handler
