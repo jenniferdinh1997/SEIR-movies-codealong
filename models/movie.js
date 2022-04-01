@@ -17,7 +17,7 @@ const movieSchema = new Schema({
     mpaaRating: String,
     cast: [String],
     nowShowing: Boolean,
-    reviews: [reviewSchema]
+    reviews: [reviewSchema] /// <- subdocuments
   });
 
   module.exports = mongoose.model('Movie', movieSchema);
