@@ -9,6 +9,7 @@ require('./config/database');
 var indexRouter = require('./routes/index');
 var moviesRouter = require('./routes/movies');
 const reviewsRouter = require('./routes/reviews');
+const performersRouter = require('./routes/performers');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/movies', moviesRouter); // every route in the moviesRoute is starting with /movies
 app.use('/', reviewsRouter); // Nested resources aka reviews, they are always mounted in server.js
 // at /
+app.use('/', performersRouter);
 app.use('/', indexRouter); //localhost:3000
 
 

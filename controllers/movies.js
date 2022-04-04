@@ -12,11 +12,12 @@ function newMovie(req, res) {
 
 function index(req, res) {
   Movie.find({}, function (err, movies) {
-    res.render("movies/index", { // <-  this refers to the view folder, to find the page we want to send
-      // back to the client
-      movies,
-      title: "All Movies",
-    });
+      res.render("movies/index", {
+        // <-  this refers to the view folder, to find the page we want to send
+        // back to the client
+        movies,
+        title: "All Movies",
+      });
   });
 }
 
