@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-// optional shortcut to the mongoose.Schema class
 const Schema = mongoose.Schema;
-
 
 const reviewSchema = new Schema({
   content: String,
@@ -10,14 +8,22 @@ const reviewSchema = new Schema({
   timestamps: true
 });
 
-// One movie has many reviews ( ONE to many relationship )
 const movieSchema = new Schema({
-    title: String,
-    releaseYear: Number,
-    mpaaRating: String,
-    cast: [String],
-    nowShowing: Boolean,
-    reviews: [reviewSchema] /// <- subdocuments
-  });
+  title: {
+    type: String,
+    required: true
+  },
+  releaseYear: {
+    type: Number,
+    default: function () {
+      return new Date().getFullYear();
+    }
+  },
+  mpaaRating: String,
+  nowShowing: { type: Boolean, default: false },
+  reviews: [reviewSchema]//One movie has many reviews
+}, {
+  timestamps: true
+});
 
-  module.exports = mongoose.model('Movie', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema);
