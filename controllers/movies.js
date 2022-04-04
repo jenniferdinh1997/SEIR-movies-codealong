@@ -9,6 +9,7 @@ function show(req, res) {
   Movie.findById(req.params.id)
   .populate('cast') // <- cast is key holding the reference on movie model
   .exec(function(err, movie) {
+    // console.log(movie, ' < movie in show route')
     // Performer.find({}).where('_id').nin(movie.cast) <-- Mongoose query builder
     // Native MongoDB approach 
     Performer.find(

@@ -1,10 +1,33 @@
 const Performer = require('../models/performer');
 const Movie = require('../models/movie');
+const movie = require('../models/movie');
 
 module.exports = {
   new: newPerformer,
-  create
+  create,
+  addToCast
 };
+
+function addToCast(req, res){
+	// console.log(req.body, " <- req.body")
+	// console.log(req.params, ' < req.params')
+	// First find the movie
+	Movie.findById(req.params.id, function(err, movieDocument){
+		// console.log(movieDocument, " <- from the callback Move.findById")
+		// add the performer id to the movie cast array
+		movieDocument.cast.push(req.body.performerId);
+		// If you mutate a mongo document what do you have to do?
+		// does the database know you changed it?
+		movieDocument.save(function(err){
+		// respond back to the client (res.redirect)
+			res.redirect(`/movies/${movieDocument._id}`)
+
+		})
+	})
+
+}
+
+
 
 function create(req, res) {
   // Need to "fix" date formatting to prevent day off by 1

@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/movies', moviesRouter); // every route in the moviesRoute is starting with /movies
 app.use('/', reviewsRouter); // Nested resources aka reviews, they are always mounted in server.js
 // at /
-app.use('/', performersRouter);
+app.use('/', performersRouter); // Implementing Many to Many relationship, nested resource remember we mount at '/'
 app.use('/', indexRouter); //localhost:3000
 
 
