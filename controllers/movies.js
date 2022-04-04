@@ -1,8 +1,25 @@
 const Movie = require("../models/movie");
+const Performer = require('../models/performer');
 
+
+//On the Movies show page, 
+// we want a dropdown with all the performers
+// that exist that are not in the particular movie already
 function show(req, res) {
-  Movie.findById(req.params.id, function (err, movieFromTheDatabase) {
-    res.render("movies/show", { title: "Movie Detail", movie: movieFromTheDatabase });
+  Movie.findById(req.params.id)
+  .populate('cast') // <- cast is key holding the reference on movie model
+  .exec(function(err, movie) {
+    // Performer.find({}).where('_id').nin(movie.cast) <-- Mongoose query builder
+    // Native MongoDB approach 
+    Performer.find(
+     {_id: {$nin: movie.cast}}, // $nin not in whatever the value is 
+     function(err, performers) {
+       console.log(performers);
+       res.render('movies/show', {
+         title: 'Movie Detail', movie: movie, performers: performers
+       });
+     }
+   );
   });
 }
 
@@ -25,12 +42,7 @@ function create(req, res) {
   // convert nowShowing's checkbox of nothing or "on" to boolean
   req.body.nowShowing = !!req.body.nowShowing;
   // remove whitespace next to commas
-  req.body.cast = req.body.cast.replace(/\s*,\s*/g, ",");
-  // split if it's not an empty string
-  if (req.body.cast) req.body.cast = req.body.cast.split(",");
-  for (let key in req.body) {
-    if (req.body[key] === "") delete req.body[key];
-  }
+
 
   // ONE WAY
   const movie = new Movie(req.body);
@@ -41,7 +53,7 @@ function create(req, res) {
     if (err) return res.redirect("/movies/new");
     console.log(movie);
     // for now, redirect right back to new.ejs
-    res.redirect("/movies");
+    res.redirect(`/movies/${movie._id}`);
   });
 
   // another way!

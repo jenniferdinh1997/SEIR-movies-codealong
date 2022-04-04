@@ -21,7 +21,10 @@ const movieSchema = new Schema({
   },
   mpaaRating: String,
   nowShowing: { type: Boolean, default: false },
-  reviews: [reviewSchema]//One movie has many reviews
+  reviews: [reviewSchema],//One movie has many reviews
+  cast: [{type: Schema.Types.ObjectId, ref: 'Performer'}] // Many to Many Relationship, referencing
+  // ref, referencing the name of the Performer model, 
+  //look at the export statement in models/performer
 }, {
   timestamps: true
 });
