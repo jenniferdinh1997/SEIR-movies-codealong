@@ -37,6 +37,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  res.locals.user = req.user; //res.locals will assign a variable to every single ejs view (like creating global variables for view)
+  next();
+});
 
 app.use('/movies', moviesRouter); // every route in the moviesRoute is starting with /movies
 app.use('/', reviewsRouter); // Nested resources aka reviews, they are always mounted in server.js
