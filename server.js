@@ -1,11 +1,15 @@
+require('dotenv').config(); //allows our server to read from the .env file
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
+const passport = require('passport');
 
 // connect to the database with Mongoose
 require('./config/database');
+require('./config/passport'); //make sure this is after database connection because we need to use the db in this file
 var indexRouter = require('./routes/index');
 var moviesRouter = require('./routes/movies');
 const reviewsRouter = require('./routes/reviews');
@@ -17,6 +21,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+//setting up our session cookie
+//session cookie is going to be sent back and forth on every HTTP request/response cycle
+//store logged in user's database id inside it
+app.use(session({
+  secret: process.env.SECRET, //process = node, env = environment (what computer we're running it in), variable
+  resave: false, //only save the cookie if we change anything on it
+  saveUninitialized: true //don't save it until we put something in
+}));
+app.use(passport.initialize()); //passport has to be setup after session
+app.use(passport.session()); //<- gives us req.user
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
