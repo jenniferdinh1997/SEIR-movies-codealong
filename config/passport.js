@@ -25,8 +25,8 @@ passport.use(
         User.create({
             name: profile.displayName,
             googleId: profile.id,
-            email: profile.emails(0).value,
-            avatar: profile.photos(0).value
+            email: profile.emails[0].value,
+            avatar: profile.photos[0].value
 
         }, function(err, createUser){
             if(createUser) return cb(null, createUser)
