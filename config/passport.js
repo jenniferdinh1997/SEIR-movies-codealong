@@ -19,7 +19,7 @@ passport.use(
         User.findOne({googleId: profile.id}, function(err, user) { 
         //if user is defined, they have logged in before
         //if user is undefine they have never logged in
-        if(user) return cb(null,user); //passes info to next spot in the middleware chain
+        if(user) return cb(null,user); //passes user info to next spot in the middleware chain
         
         //if user is undefined we want to create a user
         User.create({
@@ -29,7 +29,7 @@ passport.use(
             avatar: profile.photos(0).value
 
         }, function(err, createUser){
-            if(createUser) return cb(null, createdUser)
+            if(createUser) return cb(null, createUser)
             if(err) return cb(err)
             })
         })
@@ -37,7 +37,7 @@ passport.use(
 )
 
 passport.serializeUser(function(user, cb){
-    cb(null, user._id); //storing the logged in user's id in our session cookie
+    cb(null, user._id); //storing the logged in user's id in our session cookie, on every request we can send the cookie over to verify who we are
 })
 
 //this happens on every request after the user is loggeed in
@@ -45,5 +45,5 @@ passport.deserializeUser(function(userId, cb) {
     User.findById(userId, function(err, user) {
         if(err) return cb(err);
         cb(null, user); //assigns the user document we just found to the request object aka req.user
-    })
+    }) //allows req.user to be available in all our controller functions
 })

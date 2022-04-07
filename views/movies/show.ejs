@@ -32,6 +32,8 @@
 
 <br><br>
 <h2>Reviews</h2>
+
+<% if (user) { %> <!-- only want this UI to show when there's a logged in user -->
 <form id="add-review-form" method="POST" action="/movies/<%= movie._id %>/reviews">
   <label>Review:</label>
   <textarea name="content"></textarea>
@@ -45,6 +47,7 @@
   </select>
   <input type="submit" value="Add Review">
 </form>
+<% } %>
 
 <% if (movie.reviews.length) { %>
   <table>

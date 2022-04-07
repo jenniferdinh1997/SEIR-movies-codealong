@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
-  content: String,
-  rating: {type: Number, min: 1, max: 5, default: 5}
+  content: {type: String, required: true},
+  rating: {type: Number, min: 1, max: 5, default: 5},
+  user: {type: Schema.Types.ObjectId, ref: 'User'}, //prob don't need to populate the user every time, we can just store their username bc that's the
+  userName: String, //most common thing we'll display with the review
+  userAvatar: String
 }, {
   timestamps: true
 });

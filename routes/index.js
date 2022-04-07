@@ -8,17 +8,17 @@ router.get('/', function(req, res, next) {
 });
 
 //takes the client to the third party login screen
-router.get('/auth/google', passport.authenticate (
+router.get('/auth/google', passport.authenticate ( //our app routes us to google's sign in page
   'google',
   {scope: ['profile', 'email']}
 ))
 
 //set up google oauth callback route
 //after the third party login screen, google sends us here
-router.get('/oauth2callback', passport.authenticate(
+router.get('/oauth2callback', passport.authenticate( //google sends you back here after signing in 
   'google',
   {
-    successRedirect: '/movies',
+    successRedirect: '/movies', //if successful login then redirect the client back to movies route
     failureRedirect: '/movies'
   }
 ))
