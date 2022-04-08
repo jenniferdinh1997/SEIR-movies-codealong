@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema; // allows you to write Schema.Types.ObjectId in properties and leave off mongoose in beginning
 
 const reviewSchema = new Schema({
   content: {type: String, required: true},
@@ -32,4 +32,4 @@ const movieSchema = new Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Movie', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema); //compiles your schema into a model bc models, not schemas are used to perform CRUD on a MongoDB collection

@@ -34,12 +34,6 @@ function create(req, res){
 		})
 
 	})
-		
-	// res.send('hello')
-	
-	// 
-	
-
 }
 
 function deleteRev(req,res) {
